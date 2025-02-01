@@ -8,8 +8,8 @@ from .features.context import PacketDirection, get_packet_flow_key
 from .flow import Flow
 from .utils import get_logger
 
-
-class FlowSession(DefaultSession):
+#  Inherits from scapy DefaultSession - look into
+class FlowSession(DefaultSession): 
     """Creates a list of network flows."""
 
     verbose = False
@@ -24,6 +24,7 @@ class FlowSession(DefaultSession):
         self.output_writer = output_writer_factory(self.output_mode, self.output)
 
         super(FlowSession, self).__init__(*args, **kwargs)
+        print("creating flow session class")
 
     def toPacketList(self):
         # Sniffer finished all the packets it needed to sniff.
@@ -37,6 +38,7 @@ class FlowSession(DefaultSession):
         Needed for use in scapy versions above 2.5 because of a breaking change in scapy. 
         Functionality is same as on_packet_received, but returnvalues are added. 
         """
+        # print("Flow session class processing packets")
         self.logger.debug(f"Packet {self.packets_count}: {pkt}")
         count = 0
         direction = PacketDirection.FORWARD
@@ -87,18 +89,24 @@ class FlowSession(DefaultSession):
             self.garbage_collect(pkt.time)
             return None # Return None to indicate processing is incomplete
 
+        # print(pkt)
         flow.add_packet(pkt, direction)
 
-        if self.packets_count % GARBAGE_COLLECT_PACKETS == 0 or flow.duration > 120:
+        # if self.packets_count % GARBAGE_COLLECT_PACKETS == 0 or flow.duration > 120:
+        if self.packets_count % GARBAGE_COLLECT_PACKETS == 0 or flow.duration > 5:
             self.garbage_collect(pkt.time)
         
         return pkt  # Return the processed packet
 
     def get_flows(self):
+        # flow session returning flows
+        print("flow session getting flows")
         return self.flows.values()
 
     def garbage_collect(self, latest_time) -> None:
+        print("garbage collection")
         # TODO: Garbage Collection / Feature Extraction should have a separate thread
+        print(f"flow keys list: {list(self.flows.keys())}")
         for k in list(self.flows.keys()):
             flow = self.flows.get(k)
 
@@ -108,7 +116,7 @@ class FlowSession(DefaultSession):
                 and flow.duration < 90
             ):
                 continue
-
+            print("writing to writer")
             self.output_writer.write(flow.get_data(self.fields))
             del self.flows[k]
             self.logger.debug(f"Flow Collected! Remain Flows = {len(self.flows)}")

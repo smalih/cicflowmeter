@@ -18,7 +18,7 @@ class Flow:
 
         Args:
             packet (Any): A packet from the network.
-            direction (Enum): The direction the packet is going ove the wire.
+            direction (Enum): The direction the packet is going over the wire.
         """
 
         (
@@ -58,7 +58,7 @@ class Flow:
         self.backward_bulk_packet_count = 0
         self.backward_bulk_size = 0
         self.backward_bulk_size_tmp = 0
-
+    print("creating flow only class")
     def get_data(self, include_fields=None) -> dict:
         """This method obtains the values of the features extracted from each flow.
 
@@ -71,7 +71,7 @@ class Flow:
            list: returns a List of values to be outputted into a csv file.
 
         """
-
+        print("flow class get data")
         flow_bytes = FlowBytes(self)
         flag_count = FlagCount(self)
         packet_count = PacketCount(self)
@@ -183,7 +183,7 @@ class Flow:
 
         if include_fields is not None:
             data = {k: v for k, v in data.items() if k in include_fields}
-
+        print("returning data")
         return data
 
     def add_packet(self, packet: Packet, direction: PacketDirection) -> None:
@@ -194,6 +194,7 @@ class Flow:
             direction: The direction the packet is going in that flow
 
         """
+        # print("flow class adding packets")
         self.packets.append((packet, direction))
 
         self.update_flow_bulk(packet, direction)
@@ -225,6 +226,7 @@ class Flow:
             packet: Packet to be parse as subflow
 
         """
+        # print("flow class updating subflow")
         last_timestamp = (
             self.latest_timestamp if self.latest_timestamp != 0 else packet.time
         )

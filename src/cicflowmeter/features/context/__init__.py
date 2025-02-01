@@ -15,6 +15,7 @@ class PacketDirection(Enum):
     REVERSE = auto()
 
 
+# return src and dest ip and port
 def get_packet_flow_key(packet: Packet, direction: PacketDirection) -> tuple:
     """Creates a key signature for a packet.
 

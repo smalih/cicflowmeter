@@ -28,16 +28,18 @@ def create_sniffer(
             store=False,
         )
     else:
+        print("i mode AsynSniffer")
         return AsyncSniffer(
             iface=input_interface,
             filter="ip and (tcp or udp)",
             prn=None,
             session=FlowSession,
-            store=False,
+            store=True,
         )
 
 
 def main():
+
     parser = argparse.ArgumentParser()
 
     input_group = parser.add_mutually_exclusive_group(required=True)
@@ -98,14 +100,21 @@ def main():
         args.fields,
         args.verbose,
     )
+    print("starting")
     sniffer.start()
-
+    print("started")
     try:
+        print("joining")
         sniffer.join()
+        print("joined")
     except KeyboardInterrupt:
+        print("stopping")
         sniffer.stop()
+        print("stopped")
     finally:
+        print("final joining")
         sniffer.join()
+        print("final joined")
 
 
 if __name__ == "__main__":
