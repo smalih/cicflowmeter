@@ -158,7 +158,7 @@ class Flow:
             "psh_flag_cnt": flag_count.count("PSH"),
             "ack_flag_cnt": flag_count.count("ACK"),
             "urg_flag_cnt": flag_count.count("URG"),
-            "cwr_flag_count": None, # duplicate feature - CICIDS dataset labels this 'CWE Flag Count' - assuming to be a typo
+            "cwr_flag_cnt": None, # duplicate feature - CICIDS dataset labels this 'CWE Flag Count' - assuming to be a typo
             "ece_flag_cnt": flag_count.count("ECE"),
             
             # Response Time
@@ -199,7 +199,7 @@ class Flow:
         # Duplicated features
         data["fwd_seg_size_avg"] = data["fwd_pkt_len_mean"]
         data["bwd_seg_size_avg"] = data["bwd_pkt_len_mean"]
-        data["cwr_flag_count"] = data["fwd_urg_flags"]
+        data["cwr_flag_cnt"] = data["fwd_urg_flags"]
         data["subflow_fwd_pkts"] = data["tot_fwd_pkts"]
         data["subflow_bwd_pkts"] = data["tot_bwd_pkts"]
         data["subflow_fwd_byts"] = data["totlen_fwd_pkts"]
