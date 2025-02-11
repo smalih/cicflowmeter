@@ -92,7 +92,7 @@ def main():
         "--fields",
         action="store",
         dest="fields",
-        help="comma separated fields to include in output (default: all)",
+        help="text file or comma separated fields to include in output (default: all)",
     )
 
     parser.add_argument("-v", "--verbose", action="store_true", help="more verbose")
