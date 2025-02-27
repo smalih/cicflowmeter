@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 from scapy.sendrecv import AsyncSniffer
 
@@ -12,7 +13,13 @@ def create_sniffer(
         input_interface is None
     ), "Either provide interface input or file input not both"
     if fields is not None:
-        fields = fields.split(",")
+        file_path = Path(fields)
+        if file_path.is_file():
+            with open(file_path, 'r') as fields_file:
+                fields = fields_file.read().splitlines()
+        else:
+            fields = fields.split(",")
+        print(f"These are the fields: {fields}")
 
     setattr(FlowSession, "output_mode", output_mode)
     setattr(FlowSession, "output", output)
@@ -85,7 +92,7 @@ def main():
         "--fields",
         action="store",
         dest="fields",
-        help="comma separated fields to include in output (default: all)",
+        help="text file or comma separated fields to include in output (default: all)",
     )
 
     parser.add_argument("-v", "--verbose", action="store_true", help="more verbose")
