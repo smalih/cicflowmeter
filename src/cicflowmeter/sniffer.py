@@ -28,7 +28,7 @@ def create_sniffer(
             store=False,
         )
     else:
-        print("i mode AsynSniffer")
+        print("i mode AsyncSniffer")
         return AsyncSniffer(
             iface=input_interface,
             filter="ip and (tcp or udp)",
