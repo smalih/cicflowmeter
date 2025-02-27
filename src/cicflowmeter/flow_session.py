@@ -95,6 +95,7 @@ class FlowSession(DefaultSession):
         # if self.packets_count % GARBAGE_COLLECT_PACKETS == 0 or flow.duration > 120:
         if self.packets_count % GARBAGE_COLLECT_PACKETS == 0 or flow.duration > 5:
             self.garbage_collect(pkt.time)
+
         
         return pkt  # Return the processed packet
 
@@ -104,9 +105,9 @@ class FlowSession(DefaultSession):
         return self.flows.values()
 
     def garbage_collect(self, latest_time) -> None:
-        print("garbage collection")
+        # print("garbage collection")
         # TODO: Garbage Collection / Feature Extraction should have a separate thread
-        print(f"flow keys list: {list(self.flows.keys())}")
+        # print(f"flow keys list: {list(self.flows.keys())}")
         for k in list(self.flows.keys()):
             flow = self.flows.get(k)
 
